@@ -6,7 +6,7 @@
 /*   By: proberto <proberto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 19:40:16 by proberto          #+#    #+#             */
-/*   Updated: 2022/04/03 18:37:30 by proberto         ###   ########.fr       */
+/*   Updated: 2022/04/04 23:02:01 by proberto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	*life_monitoring(void *simulate)
 		if (get_time() - simulation->philos[i]->last_meal
 			>= simulation->time_to_die)
 		{
+			usleep(500);
 			print_status(simulation->philos[i], "died");
 			simulation->all_alive = FALSE;
 			break ;
@@ -73,9 +74,6 @@ static t_state	eating(t_philos *philosopher)
 	while (get_time() - philosopher->last_meal
 		< philosopher->simulation->time_to_eat)
 		;
-	// print_status(philosopher, "i will eating");
-	// usleep(philosopher->simulation->time_to_eat * 1000);
-	// print_status(philosopher, "i finished eating");
 	pthread_mutex_unlock(philosopher->lfork);
 	pthread_mutex_unlock(philosopher->rfork);
 	return (ALIVE);
@@ -95,7 +93,6 @@ static t_state	sleeping(t_philos *philosopher)
 	time = get_time();
 	while (get_time() - time < philosopher->simulation->time_to_sleep)
 		;
-	// usleep(philosopher->simulation->time_to_sleep * 1000);
 	return (ALIVE);
 }
 
