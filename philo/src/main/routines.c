@@ -6,7 +6,7 @@
 /*   By: proberto <proberto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 19:40:16 by proberto          #+#    #+#             */
-/*   Updated: 2022/04/04 23:02:01 by proberto         ###   ########.fr       */
+/*   Updated: 2022/04/05 20:39:22 by proberto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,12 @@ static t_state	eating(t_philos *philosopher)
 	print_status(philosopher, "has taken a fork");
 	if (get_time() - philosopher->last_meal
 		>= philosopher->simulation->time_to_die)
+	{
+		pthread_mutex_unlock(philosopher->lfork);
 		return (DEAD);
+	}
+	if (philosopher->simulation->n_philosophers >= 0)
+		usleep(20);
 	print_status(philosopher, "is eating");
 	philosopher->last_meal = get_time();
 	philosopher->n_meals++;
